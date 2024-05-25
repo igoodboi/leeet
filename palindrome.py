@@ -28,8 +28,8 @@ class Solution:
         if x < 0:
             return False
         y = str(x)
-        for i in range(len(y)//2):
-            if y[-i-1] != y[i]:
+        for i in range(len(y) // 2):
+            if y[-i - 1] != y[i]:
                 return False
         return True
 
@@ -39,6 +39,6 @@ if __name__ == '__main__':
     # 121 = true
     # -121 = false
     # 10 = false
-    n = -1
+    n = 11111111111112222222222221111111111111
     answer = sol.isPalindrome(n)
     print(answer)
