@@ -64,5 +64,5 @@ if __name__ == '__main__':
     sys.setrecursionlimit(1501)
     sol = Solution()
     # [4,3,2,1]
-    answer = sol.generate(numRows=1499)
+    answer = sol.generate(numRows=10)
     print(answer)
