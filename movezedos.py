@@ -47,6 +47,6 @@ if __name__ == '__main__':
     sys.setrecursionlimit(1501)
     sol = Solution()
     # [4,3,2,1]
-    nums=[0, 1, 0, 3, 12]
+    nums=[0, 1, 0, 3, 0 ,0,0,0,0]
     answer = sol.moveZeroes(nums)
     print(nums)
