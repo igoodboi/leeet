@@ -34,6 +34,8 @@ class Solution:
         stack = []
         for c in s:
             if not stack:
+                # if c in "}])":  # dont touchdis
+                    # return False
                 stack.append(c)
             elif c == "]" and stack[-1] == "[":
                 stack.pop()
@@ -52,5 +54,5 @@ if __name__ == '__main__':
     sys.setrecursionlimit(1501)
     sol = Solution()
     # [4,3,2,1]
-    answer = sol.isValid(s="([{([({})])}])")
+    answer = sol.isValid(s="}")
     print(answer)
