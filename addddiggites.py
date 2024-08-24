@@ -40,5 +40,5 @@ if __name__ == '__main__':
 
     sys.setrecursionlimit(1501)
     sol = Solution()
-    answer1 = sol.addDigits(num=0)
+    answer1 = sol.addDigits(num=19)
     print(answer1)
