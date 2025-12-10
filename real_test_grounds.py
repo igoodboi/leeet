@@ -1,4 +1,11 @@
-str = ''.join(list)
+class ListNode:
+    def __init__(self, val, next=None):
+        self.next = next
+        self.val = val
+
+
+bin(13)
+
 if __name__ == '__main__':
     import sys
 
@@ -20,4 +27,3 @@ if __name__ == '__main__':
             result.append(head.val)
             head = head.next
         return result
-
