@@ -100,9 +100,7 @@ class Solution:
         # Compare the two scores:
         if score1 > score2:
             return f"{score1} {score2}"
-        elif score1 < score2:
-            return f"{score2} {score1}"
-        elif score1 == score2:
+        else:
             return f"{score2} {score1}"
         #   - If player 1 has a higher score, return their score first.
         #   - If player 2 has a higher score, return their score first.
