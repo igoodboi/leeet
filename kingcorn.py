@@ -94,9 +94,46 @@ import sys
 #  1. STRING hand
 #  2. STRING piles
 #
+def point(face):
+    if face == "J":
+        return 11
+    if face == "Q":
+        return 12
+    if face == "K":
+        return 13
+    if face == "A":
+        return 1
+    if face == "T":
+        return 10
+    return int(face)
+
+
 def preporc(string) -> list:
     # return a list of (point,color) point is int, color is "r" or "b"
-    pass
+    #    hand = "JC 5C 7D QD KC 8S KS"
+    splitted = string.split(" ")
+    cards = [(point(c[:-1]), c[-1]) for c in splitted]
+    return cards
+
+
+def fmt(card) -> str:
+    face = card[0]
+    if face == 11:
+        return "J" + card[1]
+    if face == 12:
+        return "Q" + card[1]
+    if face == 13:
+        return "K" + card[1]
+    if face == 1:
+        return "A" + card[1]
+    if face == 10:
+        return "T" + card[1]
+    return str(card[0]) + card[1]
+
+
+def color(shape) -> bool:
+    colors = {'S': 0, 'C': 0, 'H': 1, 'D': 1}
+    return colors[shape]
 
 
 def playCards(hand, piles):
@@ -106,37 +143,55 @@ def playCards(hand, piles):
     # step one pre-processing
     hand = preporc(hand)
     piles = preporc(piles)
-    corners = [None] * 4
+    piles = [piles[0], None, piles[1], None, piles[2], None, piles[3], None]
     # play
+    num = 0
     while hand:
         playable = False
-        num = 0
-        for card in hand:
-            if card[0] == 13:
+        for c in range(len(hand)):
+            card = hand[c]
+            if card[0] == 13:  # check king
                 for i in range(4):
-                    j = (num + i) % 4
-                    corners.append(card)
-            else:
-                for p in range(len(piles)):
-                    desk = piles[p]
-                    if desk[0] - card[0] == 1 and card[1] != desk[1]:
-                        piles[p] = card
+                    if piles[2 * i + 1] is None:
+                        piles[2 * i + 1] = card
+                        hand[c] = None
                         playable = True
+                        break
+            else:
+                for i in range(8):
+                    j = (num + i) % 8
+                    desk = piles[j]
+                    if desk is not None and desk[0] - card[0] == 1 and color(card[1]) != color(desk[1]):
+                        num += 1
+                        piles[j] = card
+                        playable = True
+                        hand[c] = None
+                        break
 
-            # smack it down
+        if not playable:
+            break
+        hand = [c for c in hand if c is not None]
 
     # format, return
+    output = list("E" * 8)
+    for i in range(8):
+        if piles[i] is not None:
+            output[i] = fmt(piles[i])
+    return " ".join(output)
 
 
 if __name__ == '__main__':
-    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+    # fptr = open(os.environ['OUTPUT_PATH'], 'w')
 
-    hand = "JC 5C 7D QD KC 8S KS"
+    hand = "JC 5C TD QD KC 8S KS"
 
     piles = "6C 7S 6H 9H"
 
     result = playCards(hand, piles)
+    print(result)
+    #print("expected")
+    #print("6C JC 7S KS 5C E 7D E")
 
-    fptr.write(result + '\n')
+    # fptr.write(result + '\n')
 
-    fptr.close()
+    # fptr.close()
