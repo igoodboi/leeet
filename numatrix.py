@@ -45,16 +45,23 @@ import sys
 def fillPuzzle(n, numbers):
     # Write your code here
     matrix = parse(n, numbers)
-    print(matrix)
-    #zeros, losts = find(matrix)
-    #orderer = finorder(zeros, matrix, losts)
-
+    zeros, losts = findmissings(matrix)
+    orderer = finorder(zeros, matrix, losts)
+    sortedElements = assemblee(orderer)
     # RETURN!!!😀😇🇺🇸🏈😀🦅
-    pass
+
+    return " ".join(sortedElements)
+
+
 def assemblee(orderer):
     # assemble back into row major order and..............
+    valcont = []
+    sortedkiis = sorted(orderer)
+    for kii in sortedkiis:
+        value = orderer[kii]
+        valcont.append(str(value))
+    return valcont
 
-    pass
 
 def parse(n, numbers):
     # convert string to lst w/ split
@@ -64,21 +71,47 @@ def parse(n, numbers):
     # break this into square using row major order
     matrix = []
     for i in range(n):
-        row = [numlst[j] for j in range(i*n,i*n+n)]
+        row = [numlst[j] for j in range(i * n, i * n + n)]
         matrix.append(row)
     return matrix
 
-def find(matrix):
+
+def findmissings(matrix):
     zerocont = []
-    lostscont = []
+    present = []
     # find the zero using 2 for loop
     # find the missing nuumber order doesn't matter
-    pass
+    n = len(matrix)
+    for i in range(n):
+        for j in range(n):
+            if matrix[i][j] == 0:
+                # mat(i,j)
+                zerocont.append((i, j))
+            else:
+                present.append(matrix[i][j])
+    lostscont = [i for i in range(1, n * n + 1) if i not in present]
+    return zerocont, lostscont
 
 
-def finorder(zeros, matrix, losts):
+def neighbors(matrix, i, j) -> list:
+    nei = [(i + 1, j), (i - 1, j), (i, j - 1), (i, j + 1)]
+    n = len(matrix)
+    # caveat
+    return [matrix[i][j] for i, j in nei if 0 <= i < n and 0 <= j < n]
+
+
+def finorder(zeros, matrix, losts) -> map:
     # find use ice and barge into peoples to deport them adjacent x-1 and x+1
-    pass
+    # map: lost element: (i,j)
+    mp = {}
+    for x in losts:
+        for i, j in zeros:
+            # print(x, i, j)
+            nei = neighbors(matrix, i, j)
+            if x - 1 in nei and x + 1 in nei:
+                mp[(i, j)] = x
+                break
+    return mp
 
 
 if __name__ == '__main__':
@@ -88,8 +121,8 @@ if __name__ == '__main__':
 
     result = fillPuzzle(n, numbers)
     print(result)
-    #print("expected")
-    #print("6C JC 7S KS 5C E 7D E")
+    # print("expected")
+    # print("6C JC 7S KS 5C E 7D E")
 
     # fptr.write(result + '\n')
 
